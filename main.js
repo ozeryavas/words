@@ -549,6 +549,12 @@ function newQuestion() {
 function checkAnswer(selected) {
   const buttons = document.querySelectorAll("#options button");
 
+  document.querySelectorAll(".option").forEach(div => {
+  div.addEventListener("touchend", () => {
+    div.blur(); // iOS'ta focus'u sıfırlar
+  });
+});
+
   if (selected === currentQuestion.answer) {
     buttons.forEach(btn => {
       if (btn.textContent === selected) {
@@ -589,3 +595,4 @@ function showQuestion() {
 
 
 loadListButtons();
+
