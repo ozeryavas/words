@@ -458,9 +458,10 @@ list20: [
   { en: "repeat", tr: "tekrarlamak" },
   { en: "chair", tr: "sandalye" }
 ]
-  
+
 }
 
+/*
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
@@ -587,7 +588,108 @@ function showQuestion() {
   document.getElementById("result").textContent = "";
 }
 
+loadListButtons();
+*/
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+let quizWords = [];
+let current = 0;
+let score = 0;
+
+function loadListButtons() {
+  const container = document.getElementById("list-buttons");
+  container.innerHTML = "";
+  let i = 1;
+  for (let listName in lists) {
+    const btn = document.createElement("button");
+    btn.textContent = `List ${i}`;
+    btn.className = "list-btn";
+    btn.onclick = () => startQuiz(listName);
+    container.appendChild(btn);
+    i++;
+  }
+}
+
+function startQuiz(listName) {
+  quizWords = shuffle([...lists[listName]]);
+  current = 0;
+  score = 0;
+
+  document.getElementById("list-screen").style.display = "none";
+  document.getElementById("quiz-screen").style.display = "block";
+  newQuestion();
+}
+
+function goHome() {
+  document.getElementById("quiz-screen").style.display = "none";
+  document.getElementById("list-screen").style.display = "block";
+}
+
+function newQuestion() {
+  const questionDiv = document.getElementById("question");
+  const optionsDiv = document.getElementById("options");
+  const resultDiv = document.getElementById("result");
+  const bar = document.getElementById("bar");
+
+  // iOS için: eski seçili buton state'ini sıfırla
+  document.activeElement.blur();
+
+  // önce alanları temizle
+  optionsDiv.innerHTML = "";
+  resultDiv.textContent = "";
+
+  if (current >= quizWords.length) {
+    const percentage = Math.round((score / quizWords.length) * 100);
+    questionDiv.textContent = "🎉 Quiz bitti!";
+    resultDiv.innerHTML = `✅ Doğru: ${score} / ${quizWords.length} <br> 📊 Başarı: %${percentage}`;
+    bar.style.width = "100%";
+    return;
+  }
+
+  const word = quizWords[current];
+  questionDiv.textContent = `"${word.en}"`;
+
+  let options = [word.tr];
+  while (options.length < 4) {
+    let wrong = quizWords[Math.floor(Math.random() * quizWords.length)].tr;
+    if (!options.includes(wrong)) options.push(wrong);
+  }
+
+  options = shuffle(options);
+
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.className = "option";
+
+    btn.onclick = () => {
+      // önce tüm butonları disable et
+      optionsDiv.querySelectorAll("button").forEach(b => b.disabled = true);
+
+      if (opt === word.tr) {
+        btn.classList.add("correct");
+        resultDiv.textContent = "✅ Correct!";
+        score++;
+      } else {
+        btn.classList.add("wrong");
+        // doğru cevabı da işaretle
+        optionsDiv.querySelectorAll("button").forEach(b => {
+          if (b.textContent === word.tr) b.classList.add("correct");
+        });
+        resultDiv.textContent = "❌ Wrong!";
+      }
+
+      current++;
+      bar.style.width = ((current / quizWords.length) * 100) + "%";
+
+      setTimeout(newQuestion, 1000);
+    };
+
+    optionsDiv.appendChild(btn);
+  });
+}
 
 loadListButtons();
-
-
