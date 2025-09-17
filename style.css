@@ -167,24 +167,24 @@ body {
   }
 
   /* Doğru şık */
-  #options button.correct {
-    background-color: #4CAF50; /* yeşil */
-    color: white;
-    border-color: #4CAF50;
-  }
+#options button.correct {
+  background-color: #4CAF50; /* yeşil */
+  color: white;
+  border-color: #4CAF50;
+}
 
-  /* Yanlış şık */
-  #options button.wrong {
-    background-color: #E74C3C; /* kırmızı */
-    color: white;
-    border-color: #E74C3C;
-  }
+/* Yanlış şık */
+#options button.wrong {
+  background-color: #E74C3C; /* kırmızı */
+  color: white;
+  border-color: #E74C3C;
+}
 
-  /* Disabled (diğer şıklar) -> normal görünsün */
-  #options button:disabled {
-    opacity: 1;          /* sönükleşmesin */
-    cursor: default; /* sadece tıklanamasın */
-  }
+/* Disabled (diğer şıklar) -> normal görünsün */
+#options button:disabled {
+  opacity: 1;          /* sönükleşmesin */
+  cursor: default; /* sadece tıklanamasın */
+}
 }
 
 @media (max-width: 500px) {
@@ -192,10 +192,5 @@ body {
     grid-template-columns: 1fr;
   }
 }
-
-
-
-
-
 
 
