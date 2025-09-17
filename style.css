@@ -161,6 +161,10 @@ body {
   #list-buttons {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  #options button:hover {
+    background: #f9f9f9;
+  }
 }
 
 @media (max-width: 500px) {
@@ -168,6 +172,7 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
 
 
 
